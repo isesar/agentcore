@@ -14,7 +14,7 @@ func TestConversationRepositoryCreate(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create sqlmock: %v", err)
 	}
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	repo := NewConversationRepository(db)
 	userID := 1
@@ -55,7 +55,7 @@ func TestConversationRepositoryGetByID(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create sqlmock: %v", err)
 	}
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	repo := NewConversationRepository(db)
 	now := time.Now()
@@ -76,6 +76,7 @@ func TestConversationRepositoryGetByID(t *testing.T) {
 	}
 	if conversation == nil {
 		t.Fatal("expected conversation, got nil")
+		return
 	}
 	if conversation.ID != 2 {
 		t.Fatalf("expected conversation ID 2, got %d", conversation.ID)

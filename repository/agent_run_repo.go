@@ -55,7 +55,7 @@ func (r *PostgresAgentRunRepository) ListByConversationID(conversationID int) ([
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 
 	runs := make([]models.AgentRun, 0)
 	for rows.Next() {

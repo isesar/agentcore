@@ -48,7 +48,7 @@ func (r *PostgresMessageRepository) ListByConversationID(conversationID int) ([]
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 
 	messages := make([]models.Message, 0)
 	for rows.Next() {

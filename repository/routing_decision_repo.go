@@ -67,7 +67,7 @@ func (r *PostgresRoutingDecisionRepository) ListByConversationID(conversationID 
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 	return scanRoutingDecisionRows(rows)
 }
 
@@ -82,7 +82,7 @@ func (r *PostgresRoutingDecisionRepository) ListByIntent(intent string) ([]model
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 	return scanRoutingDecisionRows(rows)
 }
 
@@ -97,7 +97,7 @@ func (r *PostgresRoutingDecisionRepository) ListByTraceID(traceID string) ([]mod
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 	return scanRoutingDecisionRows(rows)
 }
 

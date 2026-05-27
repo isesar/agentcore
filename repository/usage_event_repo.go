@@ -34,7 +34,7 @@ func (r *PostgresUsageEventRepository) ListByAgentRunID(agentRunID int) ([]model
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 
 	events := make([]models.UsageEvent, 0)
 	for rows.Next() {
