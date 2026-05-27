@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"agentcore/models"
-	"github.com/DATA-DOG/go-sqlmock"
+	sqlmock "github.com/DATA-DOG/go-sqlmock"
 )
 
 func TestConversationRepositoryCreate(t *testing.T) {
