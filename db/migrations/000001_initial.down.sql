@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS errors;
+DROP TABLE IF EXISTS usage_events;
+DROP TABLE IF EXISTS tool_calls;
+DROP TABLE IF EXISTS agent_runs;
+DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS conversations;
+DROP TABLE IF EXISTS users;

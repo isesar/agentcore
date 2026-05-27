@@ -1,0 +1,131 @@
+openapi: 3.0.3
+info:
+  title: Agentcore Backend API
+  version: 1.0.0
+  description: REST API contract for agentcore backend.
+servers:
+  - url: http://localhost:8080
+paths:
+  /api/v1/query:
+    post:
+      summary: Query assistant
+      description: Accepts a prompt and optional context metadata.
+      operationId: queryAssistant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: Query processed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '400':
+          description: Validation or malformed request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+        '422':
+          description: Unprocessable request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+components:
+  schemas:
+    QueryContextMetadata:
+      type: object
+      properties:
+        conversation_id:
+          type: string
+          maxLength: 128
+        user_id:
+          type: string
+          maxLength: 128
+        trace_id:
+          type: string
+          maxLength: 128
+        source:
+          type: string
+          maxLength: 128
+        tags:
+          type: array
+          items:
+            type: string
+            maxLength: 64
+    QueryRequest:
+      type: object
+      required:
+        - prompt
+      properties:
+        prompt:
+          type: string
+          minLength: 1
+          maxLength: 4000
+        context:
+          $ref: '#/components/schemas/QueryContextMetadata'
+    QueryResponse:
+      type: object
+      required:
+        - answer
+        - intent
+        - confidence
+        - reason
+      properties:
+        conversation_id:
+          type: string
+        answer:
+          type: string
+        intent:
+          type: string
+          enum:
+            - general_qa
+            - project_lookup
+            - user_management
+            - smalltalk
+            - unknown
+        confidence:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 1
+        reason:
+          type: string
+    ErrorPayload:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          nullable: true
+    ErrorEnvelope:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorPayload'
+        request_id:
+          type: string
