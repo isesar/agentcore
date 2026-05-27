@@ -54,7 +54,7 @@ func (r *PostgresConversationRepository) ListByUserID(userID int) ([]models.Conv
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 
 	conversations := make([]models.Conversation, 0)
 	for rows.Next() {

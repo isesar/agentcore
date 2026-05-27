@@ -34,7 +34,7 @@ func (r *PostgresToolCallRepository) ListByAgentRunID(agentRunID int) ([]models.
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
+	defer func() { _ = rows.Close() }()
 
 	toolCalls := make([]models.ToolCall, 0)
 	for rows.Next() {

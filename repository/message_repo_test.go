@@ -14,7 +14,7 @@ func TestMessageRepositoryCreate(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create sqlmock: %v", err)
 	}
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	repo := NewMessageRepository(db)
 	input := &models.Message{
@@ -51,7 +51,7 @@ func TestMessageRepositoryListByConversationID(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create sqlmock: %v", err)
 	}
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	repo := NewMessageRepository(db)
 	now := time.Now()

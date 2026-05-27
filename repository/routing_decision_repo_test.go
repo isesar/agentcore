@@ -15,7 +15,7 @@ func TestRoutingDecisionRepositoryCreate(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create sqlmock: %v", err)
 	}
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	repo := NewRoutingDecisionRepository(db)
 	record := &models.RoutingDecisionRecord{
@@ -66,7 +66,7 @@ func TestRoutingDecisionRepositoryListByTraceID(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create sqlmock: %v", err)
 	}
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	repo := NewRoutingDecisionRepository(db)
 	now := time.Now()

@@ -38,6 +38,8 @@ func Init() error {
 
 func Close() {
 	if DB != nil {
-		DB.Close()
+		if err := DB.Close(); err != nil {
+			log.Printf("failed to close database connection: %v", err)
+		}
 	}
 }

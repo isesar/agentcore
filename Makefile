@@ -17,7 +17,7 @@ test:
 
 # Run linter
 lint:
-	golangci-lint run
+	golangci-lint run --fix
 
 # Clean build artifacts
 clean:
